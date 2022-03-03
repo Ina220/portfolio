@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Capstone{% endblock %}</title>
+        <!--<meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+        <script src="{% static 'capstone/myscript.js' %}"></script>
+        
+
+        <link rel="stylesheet" href="{% static 'capstone/styles.css' %}">
+        <link rel="shortcut icon" href="{% static 'capstone/favicon.ico' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Load React. -->
+        <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+        <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        </head>
+    <body>
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand brandBorder" href="{% url 'index' %}"><b class="title">/</b><i class="fab fa-readme"></i><b class="title">\</b></a>
+                
+                <button id="navButton" class="navbar-toggler" type="button" data-toggle="collapse"
+                 data-target="#navbarResponsive">
+                 <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto text-left font-weight-bold" style="padding-left:120px;">
+                        {% if user.is_authenticated %}
+
+                        <li id="loggedNav" class="nav-item">
+                            <a id="navLinkin" class="nav-link text-capitalize" href="{% url 'mycv' request.user %}" title="Home"><i class="fas fa-home"></i> {{ request.user.username }}</a>
+                        </li>
+                        <li id="loggedNav" class="nav-item">
+                            <a id="navLinkin" class="nav-link" href="{% url 'account' %}" title="{{ request.user.username}}'s account"><i class="fas fa-cog"></i> Account</a>
+                        </li>
+                        {% if request.user.groups.first.name == "developer" %}
+                        <li id="loggedNav" class="nav-item">
+                            <a id="navLinkin" class="nav-link" href="{% url 'addProject' %}"><i class="fas fa-plus"></i> Project</a>
+                        </li>
+                        
+                        <li id="loggedNav" class="nav-item">
+                            <a id="navLinkin" class="nav-link" href="{% url 'allMessages' request.user.username %}"><i class="far fa-envelope"></i> Messages</a>
+                        </li>
+                        {% endif %}
+                        {% if request.user.groups.first.name == "employer" %}
+                        <li id="loggedNav" class="nav-item">
+                            <a id="navLinkin" class="nav-link" href="{% url 'developers' %}"><i class="fab fa-connectdevelop"></i> Developers</a>
+                        </li>
+                        {% endif %}
+                    
+                        <li id="loggedNav" class="nav-item">
+                            <a id="navLinkin" class="nav-link" href="{% url 'logout' %}" title="Logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                        {% else %}
+                        <li id="outNav" class="nav-item">
+                            <a id="navLinkOut" class="nav-link" href="{% url 'index' %}"><i class="fas fa-info-circle"></i> About</a>
+                        </li>
+                        <li id="outNav" class="nav-item">
+                            <a id="navLinkOut" class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        </li>
+                        <li id="outNav" class="nav-item">
+                            <a id="navLinkOut" class="nav-link" href="{% url 'register' %}"><i class="far fa-registered"></i> Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            </nav>
+            
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>

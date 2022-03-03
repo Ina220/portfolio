@@ -1,0 +1,54 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block body %}
+<div class="container-fluid padding">
+    <div class="row padding">
+        <div class="col-md-5">
+            <div class="card">
+                <a class="btn btn-danger btnBack" href="{% url 'mycv' user %}">
+                    &#8592; Back to Profile</a>
+                <hr>
+                <h3 class="text-center text-capitalize title">
+                    {{ request.user.username }}
+                    <br>Account Settings</h3>
+                <hr>
+                {% if not account.userImage %}
+                    <img class="profilePic" 
+                         src="{% static 'capstone/noimg.png' %}">
+                {% else %}
+                    <img class="profilePic" 
+                         src="{{ account.userImage.url }}">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-body" style="margin-left:-15px;">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group label">
+                        <label class="form-label label">
+                            {{ form.userImage.label }}
+                        </label>
+                        {% render_field form.userImage class="form-control-file clearable label pad" %}
+                    </div>
+                    <div style="margin-top:50px; margin-bottom:50px;"></div>
+                        <div class="form-group label">
+                            <label class="form-label label">
+                                {{ form.backgroundImage.label }}
+                            </label>
+                            {% render_field form.backgroundImage class="form-control-file clearable label pad" %}
+                        </div>
+                        <div style="margin-top:50px; margin-bottom:50px;"></div>
+                        <div class="form-group label">
+                            {% render_field form.bio class="form-control" placeholder="Your Bio..." %}
+                        </div>
+                    <input class="btn btn-primary sub btnAcc" type="submit" name="update">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

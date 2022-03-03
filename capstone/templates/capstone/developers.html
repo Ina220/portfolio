@@ -1,0 +1,27 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+
+{% block body %}
+{% for dev in developers %}
+{% if request.user != dev.user %}
+{% if dev.user.groups.first.name == "developer" %}
+
+<!-- Project with image section -->
+<div class="container-fluid justify-content-center">
+    <div class="row welcome padding">
+        <div class="col-8 justify-content-center">
+            <h2 class="display-4 font-weight-bold title text-capitalize">{{ dev.user }}</h2>
+            <p class="text-truncate-p font-weight-light">{{ dev.bio }}</p>
+                <a href="{% url 'mycv' dev.user %}" name="profileUser" value="{{ dev.user.id }}" class="btn btn-primary btn-sm">More</a>
+        </div>
+        <div class="col-4 padding welcome">
+            
+            <!-- image -->
+          <img {% if dev.userImage %} src="{{ dev.userImage.url }}" {% else %} src="{% static 'capstone/noimg.png' %}" {% endif %} class="img-fluid" height="100" width="150">
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endblock %}

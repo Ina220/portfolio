@@ -1,0 +1,65 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block body %}
+
+
+<div class="container-fluid padding" id="editProjectTitle">
+    <div class="row welcome text-center">
+        <div class="col-12">
+            <h1 class="display-4 font-weight-bold title">View Project</h1>
+        </div>
+    <hr>
+    </div>
+</div>
+<!-- Project Cards-->
+<div class="container-fluid padding" id="editProjectContent">
+    <div class="row padding justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                    <video controls>
+                        <source src="{{ project.video.url }}" type="video/mp4">
+                    </video>
+                <div class="card-body" id="projectChange">
+                    {% if user.id == profileUserId %}
+                        <div class="col-12 text-right">
+                            <a href="#editSub"><button style="border-radius:50%;border-style: dotted;color:rgb(129, 201, 201)" title="Edit Project" id="editProjectBtn" data-section="{{ project.id }}"><i class="fas fa-edit"></i></button></a>
+                            <a href="{% url 'mycv' request.user.username %}"><button style="border-style: dotted;border-radius:50%;color:rgb(197, 74, 74);" title="Delete Project" id="delProjectBtn" data-section="{{ project.id }}"><i class="fas fa-trash"></i></button></a>
+                        </div>
+                    {% endif %}
+                    <h4 class="card-title text-capitalize font-weight-bold title" id="cardTitle">{{ project.title }}</h4>
+                    <p class="card-text text-capitalize" id="cardText">{{ project.description }}</p>
+                    <p class="text-muted" id="created"><small>{{ project.created }}</small> </p>
+                </div>
+
+                <div class="card-body" id="editSection">
+                <form method="POST" id="editForm" data-section="{{ project.id }}" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group label">
+                        <label class="form-label label">
+                            {{ form.title.label }}
+                        </label>
+                        {% render_field form.title class="form-control clearable label pad" id="editTitle" %}
+                    </div>
+                    <div class="form-group label">
+                        <label class="form-label label">
+                            {{ form.description.label }}
+                        </label>
+                        {% render_field form.description class="form-control clearable label pad" id="editDescription" %}
+                    </div>
+                    <div style="margin-top:50px; margin-bottom:50px;"></div>
+                        
+                        <div style="margin-top:50px; margin-bottom:50px;"></div>
+                        
+                    <input class="btn btn-primary btnAcc" id="editSub" type="submit" name="update">
+                </form>
+                </div>
+            </div>
+        </div>
+    
+</div>
+</div>
+
+
+{% endblock %}

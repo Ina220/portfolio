@@ -1,0 +1,38 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- buttons to scroll to the top and to scroll to the bottom social icons-->
+<button id="btnTop" title="Top Page"><i class="fas fa-arrow-up" style="color:white;"></i></button>
+
+{% for message in messages %}
+
+    <div class="container-fluid message msgContainer" id="msgContainer" data-section="{{ message.id }}">
+        <div class="row msg">
+            
+            <div class="col-md-7">
+                <h4 class="mt-3 text-capitalize title">{{ message.title }}</h4>
+                
+                <p>{{ message.sender }}</p>
+                    
+                    <p class="text-truncate">{{ message.content }}</p>
+                    
+            </div>
+            <div class="col-md-3 justify-content-center" style="margin-top:16px;">
+                <small>{{ message.created }}</small>
+            </div>
+            <div id="viewMsg" data-section="{{ message.id }}" class="col-md-1 viewMsg justify-content-center" style="margin-top:16px;max-width:80%;text-align: right;">
+                <button style="border: none;border-radius:50%;margin-bottom:10px;"><i class="far fa-eye"></i></button>
+            </div>
+            <div id="delMsg" data-section="{{ message.id }}" class="col-md-1 delMsg justify-content-center" style="margin-top:16px;max-width:20%;text-align: left;">
+                <button style="border: none;border-radius:7px;margin-bottom: 10px;"><i class="far fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}
+
+<div class="container-fluid msgView" id="messageView"></div>
+
+{% endblock %}

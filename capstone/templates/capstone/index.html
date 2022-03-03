@@ -1,0 +1,104 @@
+{% extends "capstone/layout.html" %}
+
+{% load static %}
+
+
+{% block body %}
+
+<!--fixed image background -->
+
+  <div class="container-fluid intro padding pt-4">
+    <div class="row text-center">
+      <div class="container-fluid">
+        <div class="row text-center">
+          {% if not user.is_authenticated %}
+            <div class="col-12 padding">
+              <h1 class="display-4 font-weight-bold">If you are an Employer or a Developer</h1>
+              <p class="lead" class="intro-text">
+                By registering as an Employer, you will have a an accsess to the Developers Profiles where you can contact them.
+                Or register as a Developer, and make your portfolio of
+                 Biography, Skills, Projects and employeers will find you. 
+              </p>
+              
+              </div>
+              <div class="col-12 padding pt-4">
+                <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Your Biography</h1>
+                <h4 class="intro-text">
+                  Write your biography as long as you want.
+                </h4>
+              </div>
+              <div class="col-12 padding pt-4">
+                <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Your Skills</h1>
+                <h4 class="intro-text">
+                  Add the programming languages that you can work with.
+                </h4>
+              </div>
+              <div class="col-12 padding pt-4">
+                <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Your projects</h1>
+                <h4 class="intro-text">
+                  Create Video and Description for your projects.
+                </h4>
+              </div>
+
+              {% elif user.is_authenticated and request.user.groups.first.name == "developer" %}
+              <div class="col-12 padding">
+              <h1 class="display-4 font-weight-bold">Make the best Portfolio!</h1>
+                <p class="lead" class="intro-text">
+                  If you like to make the best out of your portfolio you are in the right place!
+                  Creating your portfolio with Biography, Skills, Projects where employeers can find you.
+              </p>
+              </div>
+              <div class="col-12 padding pt-4">
+                <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Your Biography</h1>
+                <h4 class="intro-text">
+                  Write your biography as long as you want.
+                </h4>
+              </div>
+              <div class="col-12 padding pt-4">
+                <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Your Skills</h1>
+                <h4 class="intro-text">
+                  Add the programming languages that you can work with.
+                </h4>
+              </div>
+              <div class="col-12 padding pt-4">
+                <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Your projects</h1>
+                <h4 class="intro-text">
+                  Create Video and Description for your projects.
+                </h4>
+              </div>
+
+              {% elif user.is_authenticated and request.user.groups.first.name == "employer" %}
+              <div class="col-12 padding">
+              <h1 class="display-4 font-weight-bold">If you are an Employer</h1>
+                <p class="lead" class="intro-text">
+                  By registering as an Employer, you will have a an accsess to the Developers Profiles. 
+                </p>
+                </div>
+                <div class="col-12 padding pt-4">
+                  <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Developers Biography</h1>
+                  <h4 class="intro-text">
+                    See Developers biography.
+                  </h4>
+                </div>
+                <div class="col-12 padding pt-4">
+                  <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Developers Skills</h1>
+                  <h4 class="intro-text">
+                    All the programming languages that the developer work with.
+                  </h4>
+                </div>
+                <div class="col-12 padding pt-4">
+                  <h1 class="display-4 font-weight-bold" style="font-family: lucida console;">Developers Projects</h1>
+                  <h4 class="intro-text">
+                    See Developers Video and Description for their completed projects.
+                  </h4>
+                </div>
+              {% endif %}
+      
+        </div>
+    </div> 
+    </div>
+  </div>
+
+ 
+
+{% endblock %}

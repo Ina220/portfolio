@@ -1,0 +1,72 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block body %}
+
+<div class="container-fluid padding" id="addProjectTitle">
+    <div class="row welcome text-center">
+        <div class="col-12">
+            <h1 class="display-4 title font-weight-bold">Add Project</h1>
+        </div>
+    <hr>
+    </div>
+</div>
+<!-- Project Cards-->
+<div class="container-fluid padding" id="addProjectContent">
+    <div class="row padding">
+        <div class="col-md-5">
+            <div class="card">
+                {% if not lastProject.video %}
+                    <img class="card-img-top" 
+                        src="{% static 'capstone/noimg.png' %}">
+                {% else %}
+                <h4 class="card-title text-center">Last added Project</h4>
+                    <video controls>
+                        <source src="{{ lastProject.video.url }}" type="video/mp4">
+                    </video>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h4 class="card-title">{{ lastProject.title }}</h4>
+                    <p class="card-text">{{ lastProject.description }}</p>
+                </div>
+            </div>
+        </div>
+
+<div class="col-md-7" id="formProject">
+    <div class="card card-body" style="margin-left:-15px;">
+       
+        <form method="POST" id="formProject" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group label">
+                <label class="form-label label">
+                    {{ form.title.label }}
+                </label>
+                {% render_field form.title class="form-control clearable label pad" id="title" %}
+            </div>
+            <div class="form-group label">
+                <label class="form-label label">
+                    {{ form.description.label }}
+                </label>
+                {% render_field form.description class="form-control clearable label pad" id="description" %}
+            </div>
+            <div style="margin-top:50px; margin-bottom:50px;"></div>
+                <div class="form-group label">
+                    <label class="form-label label">
+                        {{ form.video.label }}
+                    </label>
+                    {% render_field form.video class="form-control-file clearable label pad" id="video" %}
+                </div>
+                <div style="margin-top:50px; margin-bottom:50px;"></div>
+                
+            <input class="btn btn-primary sub btnAcc" type="submit" name="update">
+        </form>
+    </div>
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}
