@@ -155,9 +155,7 @@ Used for the styling of this project is used ***Sass*** and ***Bootstrap*** and 
 
  ### Run this application
  
- 1. To begin with, download zip from
-   [https://github.com/me50/Ina220/blob/web50/projects/2020/x/capstone](https://github.com/me50/Ina220/blob/web50/projects/2020/x/capstone)
-     and then unzip it.
+ 1. To begin with, download zip and then unzip it. 
 2. In the terminal, run `cd` into the `final_project` directory.
 3. Then run `python manage.py makemigrations capstone` to make the migrations for the `capstone` app.
 4. then, run `python manage.py migrate` to apply migrations to the database.
