@@ -17,7 +17,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 #STATIC_ROOT = BASE_DIR / 'staticfiles'
-
+STATIC_ROOT = "/capstone/static/"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -127,7 +127,7 @@ STATIC_URL = '/capstone/static/'
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'capstone/static')
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
