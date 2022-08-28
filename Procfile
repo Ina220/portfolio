@@ -1,1 +1,1 @@
-web: gunicorn app:server
+web: gunicorn portfolio-dia.wsgi --log-file -
