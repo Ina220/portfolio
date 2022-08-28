@@ -1,1 +1,1 @@
-web: gunicorn capstone:app
+gunicorn --env DJANGO_SETTINGS_MODULE=capstone.settings capstone.wsgi
