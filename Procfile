@@ -1,1 +1,1 @@
-web: gunicorn -b 0.0.0.0:8000 capstone.final_project:application --log-file -
+web: gunicorn :app
