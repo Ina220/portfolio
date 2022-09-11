@@ -10,12 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+
+import dj_database_url
 import os
+from django.test.runner import DiscoverRunner
 from pathlib import Path
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+IS_HEROKU = "DYNO" in os.environ
 #STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 # Quick-start development settings - unsuitable for production
@@ -24,10 +29,16 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '_$7&buw52oa(pe9s8f3ga=tfn3uk(84-)1pgz)n!df7+0))i54'
 
+# Generally avoid wildcards(*). However since Heroku router provides hostname validation it is ok
+if IS_HEROKU:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = []
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -78,13 +89,25 @@ WSGI_APPLICATION = 'final_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+MAX_CONN_AGE = 600
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'CON_MAX_AGE': 500
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
+        
     }
 }
+
+if "DATABASE_URL" in os.environ:
+    # Configure Django for DATABASE_URL environment variable.
+    DATABASES["default"] = dj_database_url.config(
+        conn_max_age=MAX_CONN_AGE, ssl_require=True)
+
+    # Enable test database if found in CI environment.
+    if "CI" in os.environ:
+        DATABASES["default"]["TEST"] = DATABASES["default"]
 
 AUTH_USER_MODEL = 'capstone.User'
 # Password validation
@@ -127,12 +150,40 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "static/"
+
+# Enable WhiteNoise's GZip compression of static assets.
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+# Test Runner Config
+class HerokuDiscoverRunner(DiscoverRunner):
+    """Test Runner for Heroku CI, which provides a database for you.
+    This requires you to set the TEST database (done for you by settings().)"""
+
+    def setup_databases(self, **kwargs):
+        self.keepdb = True
+        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
+
+
+# Use HerokuDiscoverRunner on Heroku CI
+if "CI" in os.environ:
+    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
+
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static')
+#]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #Configure Django App for Heroku
-import django_heroku
-django_heroku.settings(locals())
+#import django_heroku
+#django_heroku.settings(locals())
